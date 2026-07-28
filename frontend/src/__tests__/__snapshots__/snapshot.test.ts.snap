@@ -1,0 +1,24 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Snapshot tests > MatchCard matches snapshot 1`] = `
+"<div class="bg-[#1e293b] rounded-3xl p-6 border transition-all cursor-pointer hover:scale-[1.02] relative border-emerald-500/20">
+  <div class="absolute top-6 left-6 flex gap-2 z-10 hover:cursor-pointer">
+    <favorite-button-stub></favorite-button-stub>
+  </div>
+  <div class="absolute top-6 right-6 flex gap-2 z-10 cursor-pointer">
+    <favorite-button-stub></favorite-button-stub>
+  </div>
+  <div class="flex items-center justify-between">
+    <div class="flex-1 text-center"><img src="" class="w-16 h-16 mx-auto mb-3 object-contain" alt="Austria">
+      <p class="font-semibold">AUT</p>
+    </div>
+    <div class="text-center px-6">
+      <div class="text-4xl font-black text-white tabular-nums">1 - 1</div>
+      <p class="text-slate-500 text-xs font-bold mt-2 uppercase tracking-widest">Beendet</p>
+    </div>
+    <div class="flex-1 text-center"><img src="" class="w-16 h-16 mx-auto mb-3 object-contain" alt="Germany">
+      <p class="font-semibold">GER</p>
+    </div>
+  </div>
+</div>"
+`;

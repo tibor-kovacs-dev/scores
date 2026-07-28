@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-primary: 0 0% 99%;
+    --text-primary: 240 10% 12%;
+    --card-bg: 0 0% 97%;
+    --border-color: 240 5% 90%;
+    --muted-text: 240 4% 48%;
+  }
+
+  .dark {
+    --bg-primary: 240 10% 6%;        
+    --text-primary: 0 0% 95%;
+    --card-bg: 215 20% 22%;          
+    --border-color: 215 15% 30%;
+    --muted-text: 240 5% 70%;
+  }
+}
+
+@theme {
+  --color-bg-primary: hsl(var(--bg-primary));
+  --color-text-primary: hsl(var(--text-primary));
+  --color-card-bg: hsl(var(--card-bg));
+  --color-border-color: hsl(var(--border-color));
+  --color-muted-text: hsl(var(--muted-text));
+}
