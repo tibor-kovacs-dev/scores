@@ -25,8 +25,13 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withSchedule(function (Schedule $schedule): void {
-        $schedule->command('sports:sync --live-only')->everyMinute();
-        $schedule->command('sports:sync')->everyFiveMinutes();
+        $schedule->command('sports:sync --live-only')
+            ->everyMinute()
+            ->sendOutputTo('/dev/stdout');
+
+        $schedule->command('sports:sync')
+            ->everyFiveMinutes()
+            ->sendOutputTo('/dev/stdout');
 
         $schedule->call(function () {
             app(\App\Services\FootballDataService::class)->cleanupOldMatches(30);
