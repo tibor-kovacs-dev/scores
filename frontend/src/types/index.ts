@@ -11,6 +11,7 @@ export interface Game {
   id: number
   external_id: number
   competition_code?: string
+  competition_name?: string
   home_team_id: number
   away_team_id: number
   score_home: number

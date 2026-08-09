@@ -35,14 +35,24 @@ const upcomingMatches = computed(() =>
     .sort((a, b) => new Date(a.utc_date).getTime() - new Date(b.utc_date).getTime()),
 )
 
-const groupByCompetition = (matches: Game[]) => {
-  const groups: Record<string, Game[]> = {}
+interface CompetitionGroup {
+  code: string
+  name: string
+  matches: Game[]
+}
+
+const groupByCompetition = (matches: Game[]): CompetitionGroup[] => {
+  const groups: Record<string, CompetitionGroup> = {}
   matches.forEach((game) => {
     const code = game.competition_code || 'OTHER'
-    if (!groups[code]) groups[code] = []
-    groups[code].push(game)
+    if (!groups[code]) {
+      // Az API-ból mentett teljes nevet preferáljuk; a hardcode-olt lista csak
+      // a régi (competition_name nélküli) rekordokhoz kell fallbacknek.
+      groups[code] = { code, name: game.competition_name || getLeagueName(code), matches: [] }
+    }
+    groups[code].matches.push(game)
   })
-  return groups
+  return Object.values(groups)
 }
 
 const goToStandings = (code: string) => {
@@ -74,13 +84,13 @@ const goToStandings = (code: string) => {
           <h2 class="text-xl font-bold uppercase tracking-wider text-red-500">{{ t('live') }}</h2>
         </div>
 
-        <div v-for="(matches, code) in groupByCompetition(liveMatches)" :key="code" class="mb-8">
-          <div @click="goToStandings(code)"
+        <div v-for="group in groupByCompetition(liveMatches)" :key="group.code" class="mb-8">
+          <div @click="goToStandings(group.code)"
             class="text-emerald-400 font-medium mb-2 cursor-pointer hover:underline text-sm">
-            {{ getLeagueName(code) }}
+            {{ group.name }}
           </div>
           <div class="space-y-2">
-            <MatchCard v-for="game in matches" :key="game.id" :game="game" />
+            <MatchCard v-for="game in group.matches" :key="game.id" :game="game" />
           </div>
         </div>
       </section>
@@ -89,13 +99,13 @@ const goToStandings = (code: string) => {
         <h2 class="text-lg font-bold uppercase tracking-wider text-emerald-500 mb-5">
           {{ t('finished') }}
         </h2>
-        <div v-for="(matches, code) in groupByCompetition(finishedMatches)" :key="code" class="mb-8">
-          <div @click="goToStandings(code)"
+        <div v-for="group in groupByCompetition(finishedMatches)" :key="group.code" class="mb-8">
+          <div @click="goToStandings(group.code)"
             class="text-emerald-400 font-medium mb-2 cursor-pointer hover:underline text-sm">
-            {{ getLeagueName(code) }}
+            {{ group.name }}
           </div>
           <div class="space-y-2">
-            <MatchCard v-for="game in matches" :key="game.id" :game="game" :showDate="!isToday(game.utc_date)" />
+            <MatchCard v-for="game in group.matches" :key="game.id" :game="game" :showDate="!isToday(game.utc_date)" />
           </div>
         </div>
       </section>
@@ -104,13 +114,13 @@ const goToStandings = (code: string) => {
         <h2 class="text-lg font-bold uppercase tracking-wider text-primary mb-5">
           {{ t('upcoming') }}
         </h2>
-        <div v-for="(matches, code) in groupByCompetition(upcomingMatches)" :key="code" class="mb-8">
-          <div @click="goToStandings(code)"
+        <div v-for="group in groupByCompetition(upcomingMatches)" :key="group.code" class="mb-8">
+          <div @click="goToStandings(group.code)"
             class="text-emerald-400 font-medium mb-2 cursor-pointer hover:underline text-sm">
-            {{ getLeagueName(code) }}
+            {{ group.name }}
           </div>
           <div class="space-y-2">
-            <MatchCard v-for="game in matches" :key="game.id" :game="game" :showDate="!isToday(game.utc_date)" />
+            <MatchCard v-for="game in group.matches" :key="game.id" :game="game" :showDate="!isToday(game.utc_date)" />
           </div>
         </div>
       </section>

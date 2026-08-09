@@ -13,6 +13,7 @@ class GameResource extends JsonResource
             'id' => $this->id,
             'external_id' => $this->external_id,
             'competition_code' => $this->competition_code,
+            'competition_name' => $this->competition_name,
             'home_team_id' => $this->home_team_id,
             'away_team_id' => $this->away_team_id,
             'score_home' => $this->score_home,
