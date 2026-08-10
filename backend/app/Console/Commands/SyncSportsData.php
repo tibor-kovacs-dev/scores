@@ -35,19 +35,19 @@ class SyncSportsData extends Command
         $gameCount = \App\Models\Game::count();
         $this->info("{$gameCount} matches in database");
 
-        $this->info('Updating live matches...');
-        $service->syncLiveMatches();
+        // Live matches are intentionally NOT re-synced here anymore.
+        // A separate `sports:sync --live-only` job already covers that
+        // every minute; calling syncLiveMatches() here too was redundant
+        // and was part of what exhausted the football-data.org rate limit.
 
         $this->info('Cleaning up old matches...');
         $deleted = $service->cleanupOldMatches(30);
         $this->info("{$deleted} old matches deleted");
 
-        $codes = ['PL', 'PD', 'SA', 'BL1', 'FL1', 'BSA', 'CLI', 'WC', 'EC', 'BL2', 'ELC'];
-        foreach ($codes as $code) {
-            cache()->forget("teams_{$code}");
-        }
-
-        cache()->forget('available_competitions');
+        // Team/competition caches are no longer force-cleared on every
+        // run. They already expire on their own TTL (6h / 12h); clearing
+        // them every 5 minutes defeated that TTL and forced needless
+        // API refetches.
 
         $duration = round(microtime(true) - $start, 2);
         $this->info("Sync completed! ({$duration} seconds)");

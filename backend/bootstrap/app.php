@@ -27,10 +27,12 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withSchedule(function (Schedule $schedule): void {
         $schedule->command('sports:sync --live-only')
             ->everyMinute()
+            ->withoutOverlapping()
             ->sendOutputTo('/dev/stdout');
 
         $schedule->command('sports:sync')
             ->everyFiveMinutes()
+            ->withoutOverlapping()
             ->sendOutputTo('/dev/stdout');
 
         $schedule->call(function () {
