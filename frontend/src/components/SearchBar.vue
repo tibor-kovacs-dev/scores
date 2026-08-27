@@ -5,14 +5,18 @@ import { useRouter } from 'vue-router'
 import { debounce } from 'lodash-es'
 import { useI18n } from 'vue-i18n'
 import type { Game, Team } from '@/types/index.ts'
-import { useDateFormat } from '@/composables/useDateFormat'
+import MatchCard from './MatchCard.vue'
 
 const { t } = useI18n()
 const router = useRouter()
 
+const isGame = (result: Game | Team): result is Game => 'home_team_id' in result
+
+const resultKey = (result: Game | Team) => (isGame(result) ? 'game-' : 'team-') + result.id
+
 const searchQuery = ref('')
 const searchResults = ref<(Game | Team)[]>([])
-const { formatTime } = useDateFormat()
+
 const performSearch = async (q: string) => {
   if (q.length < 2) {
     searchResults.value = []
@@ -38,7 +42,7 @@ watch(searchQuery, (newQuery) => {
 })
 
 const goToResult = (result: Game | Team) => {
-  if ('home_team_id' in result) {
+  if (isGame(result)) {
     router.push(`/match/${result.id}`)
   } else {
     router.push(`/team/${result.id}`)
@@ -59,25 +63,21 @@ const goToResult = (result: Game | Team) => {
       />
     </div>
 
-    <div v-if="searchResults.length > 0" class="absolute w-full mt-2 bg-card-bg rounded-2xl border border-border-color shadow-2xl z-50 max-h-96 overflow-auto">
-      <div v-for="result in searchResults" :key="result.id" 
-           @click="goToResult(result)"
-           class="px-6 py-4 hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer border-b border-border-color last:border-0 flex items-center gap-4">
-        
-        <img v-if="'logo_url' in result" 
-             :src="result.logo_url" 
-             class="w-8 h-8 object-contain" />
-        
-        <div class="min-w-0 flex-1">
-          <p class="font-semibold truncate">
-            {{ 'name' in result ? result.name : result.home_team?.name }}
-            <span v-if="'away_team' in result" class="text-muted-text"> vs {{ result.away_team?.name }}</span>
-          </p>
-          <p v-if="'utc_date' in result" class="text-xs text-muted-text">
-            {{ formatTime(result.utc_date) }}
-          </p>
+    <div v-if="searchResults.length > 0" class="absolute w-full mt-2 bg-card-bg rounded-2xl border border-border-color shadow-2xl z-50 max-h-96 overflow-auto p-2 space-y-2">
+      <template v-for="result in searchResults" :key="resultKey(result)">
+        <div v-if="isGame(result)" @click="goToResult(result)">
+          <MatchCard :game="result" :showDate="true" />
         </div>
-      </div>
+
+        <div v-else
+             @click="goToResult(result)"
+             class="px-4 py-3 hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer rounded-2xl border border-border-color flex items-center gap-4">
+          <img v-if="result.logo_url"
+               :src="result.logo_url"
+               class="w-8 h-8 object-contain shrink-0" />
+          <p class="font-semibold truncate">{{ result.name }}</p>
+        </div>
+      </template>
     </div>
   </div>
 </template>
