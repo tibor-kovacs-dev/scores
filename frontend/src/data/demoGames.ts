@@ -16,14 +16,14 @@ export const demoGames: Game[] = [
       external_id: 1,
       name: 'Németország',
       short_name: 'GER',
-      logo_url: 'https://crests.football-data.org/759.png'
+      logo_url: 'https://crests.football-data.org/759.svg' 
     },
     away_team: {
       id: 2,
       external_id: 2,
       name: 'Franciaország',
       short_name: 'FRA',
-      logo_url: 'https://crests.football-data.org/773.png'
+      logo_url: 'https://crests.football-data.org/773.svg'
     }
   },
   {
@@ -41,14 +41,14 @@ export const demoGames: Game[] = [
       external_id: 3,
       name: 'Argentína',
       short_name: 'ARG',
-      logo_url: 'https://crests.football-data.org/762.png'
+      logo_url: 'https://crests.football-data.org/762.svg'
     },
     away_team: {
       id: 4,
       external_id: 4,
       name: 'Brazília',
       short_name: 'BRA',
-      logo_url: 'https://crests.football-data.org/764.png'
+      logo_url: 'https://crests.football-data.org/764.svg'
     }
   },
   {
@@ -66,14 +66,14 @@ export const demoGames: Game[] = [
       external_id: 5,
       name: 'Spanyolország',
       short_name: 'ESP',
-      logo_url: 'https://crests.football-data.org/760.png'
+      logo_url: 'https://crests.football-data.org/760.svg'
     },
     away_team: {
       id: 6,
       external_id: 6,
       name: 'Anglia',
       short_name: 'ENG',
-      logo_url: 'https://crests.football-data.org/770.png'
+      logo_url: 'https://crests.football-data.org/770.svg'
     }
   },
   {
@@ -91,14 +91,14 @@ export const demoGames: Game[] = [
       external_id: 7,
       name: 'Olaszország',
       short_name: 'ITA',
-      logo_url: 'https://crests.football-data.org/784.png'
+      logo_url: 'https://crests.football-data.org/784.svg'
     },
     away_team: {
       id: 8,
       external_id: 8,
       name: 'Hollandia',
       short_name: 'NED',
-      logo_url: 'https://crests.football-data.org/778.png'
+      logo_url: 'https://crests.football-data.org/778.svg'
     }
   }
 ]
