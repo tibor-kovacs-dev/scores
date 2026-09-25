@@ -15,7 +15,7 @@ const { isToday } = useDateFormat()
 
 const games = computed(() => (Array.isArray(matchStore.games) ? matchStore.games : []))
 
-const LIVE_STATUSES = ['IN_PLAY', 'LIVE', 'FIRST_HALF', 'SECOND_HALF', 'HALF_TIME']
+const LIVE_STATUSES = ['IN_PLAY', 'LIVE', 'FIRST_HALF', 'SECOND_HALF', 'PAUSED', 'HALF_TIME']
 const FINISHED = ['FINISHED', 'FT', 'COMPLETED']
 const UPCOMING = ['TIMED', 'SCHEDULED']
 
@@ -46,8 +46,6 @@ const groupByCompetition = (matches: Game[]): CompetitionGroup[] => {
   matches.forEach((game) => {
     const code = game.competition_code || 'OTHER'
     if (!groups[code]) {
-      // Az API-ból mentett teljes nevet preferáljuk; a hardcode-olt lista csak
-      // a régi (competition_name nélküli) rekordokhoz kell fallbacknek.
       groups[code] = { code, name: game.competition_name || getLeagueName(code), matches: [] }
     }
     groups[code].matches.push(game)

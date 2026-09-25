@@ -3,14 +3,14 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
 import { useI18n } from 'vue-i18n'
-import type { Team, Game } from '@/types/index.ts'
+import type { Game, TeamDetail } from '@/types/index.ts'
 import TheNavigation from '@/components/TheNavigation.vue'
 import { useDateFormat } from '@/composables/useDateFormat'
 import { getLeagueName } from '@/data/competitions'
 
 const { t } = useI18n()
 const route = useRoute()
-const team = ref<Team | null>(null)
+const team = ref<TeamDetail | null>(null)
 const games = ref<Game[]>([])
 const loading = ref(true)
 const { formatDateTime } = useDateFormat()

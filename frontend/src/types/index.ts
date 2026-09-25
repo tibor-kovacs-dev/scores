@@ -7,6 +7,10 @@ export interface Team {
   logo_url: string
 }
 
+export interface TeamDetail extends Team {
+  games?: Game[]
+}
+
 export interface Game {
   id: number
   external_id: number

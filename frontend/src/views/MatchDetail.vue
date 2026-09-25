@@ -30,21 +30,27 @@ onMounted(loadGame)
 
 const getStatusText = (g: Game | null) => {
   if (!g) return ''
-  
+
   const status = g.status?.toUpperCase() || ''
-  
-  if (['IN_PLAY', 'LIVE', 'PAUSED'].includes(status)) {
+
+  if (['IN_PLAY', 'LIVE', 'FIRST_HALF', 'SECOND_HALF'].includes(status)) {
     return t('live_short') || 'Live'
   }
-  
-  const map: Record<string, string> = {
-    'FINISHED': t('finished') || 'Finished',
-    'TIMED': t('timed') || 'Upcoming',
-    'POSTPONED': t('postponed') || 'Postponed',
-    'CANCELLED': t('cancelled') || 'Cancelled',
-    'HALF_TIME': t('half_time') || 'Half-time'
+
+  if (['PAUSED', 'HALF_TIME'].includes(status)) {
+    return t('half_time') || 'Half-time'
   }
-  
+
+  const map: Record<string, string> = {
+    FINISHED: t('finished') || 'Finished',
+    FT: t('finished') || 'Finished',
+    COMPLETED: t('finished') || 'Finished',
+    TIMED: t('timed') || 'Upcoming',
+    SCHEDULED: t('timed') || 'Upcoming',
+    POSTPONED: t('postponed') || 'Postponed',
+    CANCELLED: t('cancelled') || 'Cancelled',
+  }
+
   return map[status] || status
 }
 </script>
@@ -52,12 +58,13 @@ const getStatusText = (g: Game | null) => {
 <template>
   <div class="min-h-screen bg-bg-primary text-text-primary font-sans p-4 md:p-8 lg:p-10">
     <div class="max-w-7xl mx-auto">
-      <TheNavigation/>
-      
+      <TheNavigation />
+
       <div class="max-w-5xl mx-auto">
-        <button 
-          @click="$router.back()" 
-          class="mb-6 md:mb-8 flex items-center gap-2 text-emerald-400 hover:text-text-primary transition-colors">
+        <button
+          @click="$router.back()"
+          class="mb-6 md:mb-8 flex items-center gap-2 text-emerald-400 hover:text-text-primary transition-colors"
+        >
           ← {{ t('back') }}
         </button>
 
@@ -100,7 +107,9 @@ const getStatusText = (g: Game | null) => {
               <div class="space-y-3 md:space-y-4">
                 <div class="flex justify-between py-1 md:py-2 border-b border-border-color">
                   <span class="text-sm md:text-base text-muted-text">{{ t('competition') }}</span>
-                  <span class="text-sm md:text-base font-medium text-text-primary">{{ getLeagueName(game.competition_code || '') || game.competition_code || '-' }}</span>
+                  <span class="text-sm md:text-base font-medium text-text-primary">
+                    {{ getLeagueName(game.competition_code || '') || game.competition_name || game.competition_code || '-' }}
+                  </span>
                 </div>
                 <div class="flex justify-between py-1 md:py-2 border-b border-border-color">
                   <span class="text-sm md:text-base text-muted-text">{{ t('status') }}</span>
