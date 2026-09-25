@@ -98,7 +98,7 @@ export const demoGames: Game[] = [
       external_id: 8,
       name: 'Hollandia',
       short_name: 'NED',
-      logo_url: 'https://crests.football-data.org/778.svg'
+      logo_url: 'https://crests.football-data.org/8601.svg'
     }
   }
 ]
