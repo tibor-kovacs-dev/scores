@@ -68,7 +68,7 @@ const isFinished = computed(() =>
         {{ t('half_time') }}
       </div>
       <div v-else-if="isLive" class="text-[9px] font-bold mt-px animate-pulse text-red-500">
-        Live
+        {{ t('live_short') }}
       </div>
     </div>
 
